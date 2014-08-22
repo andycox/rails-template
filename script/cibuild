@@ -1,0 +1,25 @@
+#!/bin/sh
+set -ex
+
+RACK_ENV="test"
+export RACK_ENV
+export RBENV_VERSION="2.1.2"
+
+test -n "$RBENV_HOME" || export RBENV_HOME=/usr/local/rbenv
+
+test -n "$RBENV_VERSION" && {
+  export PATH="${RBENV_HOME}/shims:$PATH"
+}
+
+test -n "$POSTGRES_HOME" || export POSTGRES_HOME=/usr/pgsql-9.3
+
+# Jenkins pg user needs create DB access for this
+dropdb rails_template_test --if-exists && createdb rails_template_test
+
+hostname
+ruby -v
+env
+bundle config build.pg --with-pg-config=${POSTGRES_HOME}/bin/pg_config
+bundle install --binstubs --path vendor/bundle --without development production && bundle clean
+bin/rspec
+#bin/cucumber

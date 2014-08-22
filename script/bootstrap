@@ -1,0 +1,82 @@
+#!/bin/bash
+#
+# Bootstraps your world. Checks to see if dependencies are met, and then
+# installs them if they aren't.
+
+echo ''
+  echo '' > /tmp/rails-template-bootstrap
+
+info () {
+  printf "  [ \033[00;34m..\033[0m ] $1"
+}
+
+success () {
+  printf "\r\033[2K  [ \033[00;32mok\033[0m ] $1\n"
+}
+
+user () {
+  printf "\r\033[2K  [ \033[00;33m?\033[0m ] $1"
+}
+
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  echo 'See /tmp/rails-template-bootstrap for more information.'
+  exit
+}
+
+info 'configure environment'
+# If any of the .env files are here, assume we've done this
+if test -f ".env"
+then
+  success 'configure environment'
+else
+  echo "RACK_ENV=development" >> .env
+  echo "PORT=3001" >> .env
+  success 'configure environment'
+fi
+
+# bundler
+info 'bundler'
+if gem list | grep bundler > /dev/null
+then
+  success 'bundler'
+else
+  gem install bundler > /tmp/rails-template-bootstrap
+  success 'bundler'
+fi
+
+# Rehash shims on rbenv if they're using it.
+if test $(which rbenv)
+then
+  rbenv rehash
+fi
+
+# gems
+info 'gems'
+if bundle install --path vendor/bundle >> /tmp/rails-template-bootstrap 2>&1
+then
+  success 'gems'
+else
+  fail 'gems'
+fi
+
+# Create database. If this doesn't work, tell them to do it manually.
+info 'setting up postgres'
+if bundle exec rake db:create >> /tmp/rails-template-bootstrap 2>&1
+then
+  success 'databases created'
+else
+  fail 'problem creating databases'
+fi
+
+info 'data migrations'
+if bundle exec rake db:migrate >> /tmp/rails-template-bootstrap 2>&1
+then
+  success 'data migrated'
+else
+  fail 'problem migrating data'
+fi
+
+echo ""
+echo "  You're all set!"
