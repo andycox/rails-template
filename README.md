@@ -30,6 +30,13 @@ Instructions TBD. Will include:
     * Change default application title if desired
   * `config/initializers/session_store.rb`
     * Replace `rails-template` with your application q
+  * `config/initializers/devise.rb`
+    * Replace `rails_template_` with your application
+    * Replace `RAILS_TEMPLATE_` with your application
+  * `config/initializers/rails_template.rb`
+    * `git mv` for your application
+    * Replace `RailsTemplate` with your application in CamelCase
+    * Replace `RAILS_TEMPLATE_` with your application
   * **TODO: AUTOMATE THESE**
 * Get your PG running with the right permissions (Homebrew on OS X)
 * `script/bootstrap`
