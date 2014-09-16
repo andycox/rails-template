@@ -66,6 +66,15 @@ gem 'spring',        group: :development
 # Use unicorn as the app server
 gem 'unicorn'
 
+# Authentication
+# Handle SSO authentication and users via Devise and OmniAuth
+# There appears to be something broken with hashie >= 3
+# which omniauth 1.2.2 allows, so fix at 1.2.1 for now.
+# Eventually find what's wrong and resolve this.
+gem 'omniauth', '~> 1.2'
+gem 'omniauth-saml', '~> 1.2'
+gem 'devise'
+
 # Use Capistrano for deployment
 group :development do
   gem 'capistrano', '~> 3.1.0'
