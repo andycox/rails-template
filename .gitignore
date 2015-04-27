@@ -21,7 +21,5 @@ db/*.sqlite3
 # Ignore dotenv files
 /.env*
 
-.ruby-version
-
 # Comment this out if you want to track down the keep files
 .keep
