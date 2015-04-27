@@ -3,7 +3,7 @@ preferred stuff, especially as I keep learning what my preferred stuff is.
 
 No more.
 
-This is my opinionated template for starting a new Rails 4.1 application with Ruby 2.1.
+This is my opinionated template for starting a new Rails 4.2 application with Ruby 2.1.
 I'll change things up as my opinions change.
 
 Instructions TBD. Will include:
